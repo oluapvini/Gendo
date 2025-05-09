@@ -1,42 +1,117 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body{
+   background-color: #dedee2;
+}
+
+/* Fundo da tela */
+.login-container {
+  min-height: 100vh;
+  background: #F8F8FB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card branco */
+.login-card {
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-section{
+  padding: 60px 20px;
+}
+
+/* Título e subtítulo */
+.gendo-title {
   text-align: center;
+  font-weight: bold;
+  color: #124EE6;
+  margin-bottom: 0.25rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.login-subtitle {
+  text-align: center;
+  font-size: 2rem;
+  color: #000000;
+  margin-bottom: 2rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Formulário */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: #374151;
 }
 
-.card {
-  padding: 2em;
+.text-input{
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #C3C4CA;
+  border-radius: 20px;
+  background-color: #F8F8FB;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+  margin-bottom: 15px;
 }
 
-.read-the-docs {
-  color: #888;
+.form-group {
+  width: 100%; 
 }
+
+.form-group input:focus {
+  border-color: #5B5A67;
+  box-shadow: 0 0 0 2px #c7d2fe;
+}
+
+/* Botão */
+.login-form button {
+  padding: 0.5rem 5rem;
+  background-color: #5B5A67;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  max-width: 15rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.login-form button:hover {
+  background-color: #33333a;
+}
+.home-header{
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  gap: 10px;
+}
+.user-info{
+  display:flex;
+  background-color: #5B5A67;
+  padding: 5rem 0rem;
+  justify-content: center;
+}
+.home-header > div{
+  display: flex;
+  gap:10px;
+}
+
+.scheduler{
+  background-color: white;
+  margin: 1rem 5rem;
+}
+
