@@ -2,12 +2,13 @@
 
 
 import { Login } from './screens/Login';
-import { Home } from './screens/home';
+import { Home } from './screens/Home';
+import ContactForm from './screens/schedulingProcess/ContactForm';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './App.css'
-import { DoctorCard } from './components/doctorCard/doctorCard';
+import { DoctorCard } from './components/doctorCard/DoctorCard';
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   return (
     <Router>
       <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<ContactForm />} />
         </Routes>
     </Router>
   )

@@ -14,28 +14,31 @@ body{
 /* Card branco */
 .login-card {
   background-color: white;
-  padding: 10px 20px;
+  padding: 20px 20px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 30rem;
 }
 
 .login-section{
-  padding: 60px 20px;
+  padding: 100px 20px;
 }
 
 /* Título e subtítulo */
 .gendo-title {
   text-align: center;
+  font-size: 20px;
   font-weight: bold;
   color: #124EE6;
+
 
 }
 
 .login-subtitle {
   text-align: center;
-  font-size: 2rem;
+  font-size: 40px;
+
   color: #000000;
   margin-bottom: 2rem;
 }
@@ -59,12 +62,13 @@ body{
   width: 100%;
   padding: 0.5rem 0.75rem;
   border: 1px solid #C3C4CA;
-  border-radius: 20px;
+  border-radius: 10px;
   background-color: #F8F8FB;
   font-size: 1rem;
   outline: none;
   box-sizing: border-box;
   margin-bottom: 15px;
+  font-size: 18px;
 }
 
 .form-group {
@@ -76,22 +80,9 @@ body{
   box-shadow: 0 0 0 2px #c7d2fe;
 }
 
-/* Botão */
 .login-form button {
-  padding: 0.5rem 5rem;
-  background-color: #5B5A67;
-  color: white;
-  font-weight: 600;
-  font-size: 1rem;
-  border: none;
-  max-width: 15rem;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.login-form button:hover {
-  background-color: #33333a;
+  width: 100%;
+  padding: 10px;
 }
 .home-header{
   display: flex;
@@ -121,7 +112,7 @@ body{
   display: flex;
   flex-direction: column;
   gap:2rem;
-  box-shadow: 6px 7px 12.3px rgba(93, 77, 143, 0.12);
+  box-shadow: 6px 7px 12.3px rgba(208, 207, 226, 0.904);
 }
 
 .scheduler-info{
@@ -236,23 +227,96 @@ body{
   background-color: #C3C4CA;
 }
 
-.schedule-controls {
+body {
+  background-color: #ededf3;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #ededf3;
+  font-family: sans-serif;
+}
+
+.form-wrapper {
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
 }
 
-.schedule-controls button {
-  background-color: #124ee6;
+.form-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 40rem;
+}
+
+.form-title {
+  text-align: center;
+  color: #124EE6;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.form-input {
+  padding: 0.75rem 0.75rem;
+  border: 1px solid #C3C4CA;
+  border-radius: 10px;
+  background-color: #F8F8FB;
+  font-size: 1rem;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #5B5A67;
+  box-shadow: 0 0 0 2px #c7d2fe;
+}
+
+.form-error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.form-button {
+  padding: 0.75rem;
+  background-color: #124EE6;
   color: white;
+  font-weight: bold;
+  font-size: 1rem;
   border: none;
-  border-radius: 6px;
-  padding: 0.3rem 0.7rem;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+  margin-top: 1rem;
 }
 
-.schedule-controls button:hover {
+.form-button:hover {
   background-color: #0e3ac2;
+}
+
+.blue-line{
+  height: 7px;
+  width: 100%;
+  background-color: #124EE6;
 }

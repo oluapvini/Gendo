@@ -5,10 +5,7 @@ const generateNextDates = (start, count) => {
   const dates = [];
   const date = new Date(start);
   while (dates.length < count) {
-    const day = date.getDay();
-    if (day !== 0 && day !== 6) { // Exclui Sábados e Domingos
-      dates.push(new Date(date));
-    }
+    dates.push(new Date(date)); // Adiciona todos os dias
     date.setDate(date.getDate() + 1);
   }
   return dates;
