@@ -1,5 +1,5 @@
 body{
-   background-color: #dedee2;
+   background-color: #ededf3;
 }
 
 /* Fundo da tela */
@@ -30,7 +30,7 @@ body{
   text-align: center;
   font-weight: bold;
   color: #124EE6;
-  margin-bottom: 0.25rem;
+
 }
 
 .login-subtitle {
@@ -99,19 +99,160 @@ body{
   padding: 15px;
   gap: 10px;
 }
+
 .user-info{
   display:flex;
   background-color: #5B5A67;
   padding: 5rem 0rem;
   justify-content: center;
+  gap:2rem;
+  align-items: center;
 }
 .home-header > div{
   display: flex;
   gap:10px;
+  align-items: center;
 }
-
-.scheduler{
+.section{
   background-color: white;
-  margin: 1rem 5rem;
+  border-radius: 20px;
+  margin: 1rem 20rem;
+  padding: 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap:2rem;
+  box-shadow: 6px 7px 12.3px rgba(93, 77, 143, 0.12);
 }
 
+.scheduler-info{
+  display: flex;
+  gap: 10rem;
+}
+.scheduler-info > div{
+  display: flex;
+  flex-direction: column;
+  gap:0.5rem
+}
+
+.perfil-img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 100%;
+    display: flex;
+    background-color: #C3C4CA;
+    overflow: hidden; 
+    align-items: center;
+    justify-content: center;
+}
+
+.perfil-img > img {
+    object-fit: cover; 
+}
+
+.main-perfil-img{
+  width: 7rem;
+  height: 7rem;
+}
+.user-info-datails{
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+.user-type{
+  margin-top: 0.5rem;
+  color: black;
+  background-color: #d1d1e03b;
+  width: 5rem;
+  border-radius:5px;
+  padding: 2px;
+  text-align: center;
+  
+}
+.dark-btn{
+  color: white;
+  background-color: #33333a;
+  padding: 7px 51px;
+  border-radius: 5px;
+}
+.dark-btn:hover{
+  background-color: #1e1e22;
+  cursor: pointer;
+}
+.blue-btn{
+   color: white;
+  background-color: #124EE6;
+  padding: 7px 51px;
+  border-radius: 5px;
+}
+.blue-btn:hover{
+  background-color: #3d65e7;
+  cursor:pointer;
+}
+
+.select-container select {
+  appearance: none;
+  border: 1px solid #C3C4CA;
+  box-shadow: none;
+  flex: 1;
+  padding: 0 1em;
+  color:#88888b;
+  background-color: white;
+  background-image: none;
+  cursor: pointer;
+}
+
+.select-container select::-ms-expand {
+  display: none;
+}
+
+.select-container {
+  position: relative;
+  display: flex;
+  width: 25rem;
+  height: 2.5rem;
+  border-radius: .25rem;
+  overflow: hidden;
+}
+
+.select-container::after {
+  content: '\276F';
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  transform: translateY(-14%) translateX(-7%) rotate(90deg);
+  padding: 1.1rem;
+  background-color: #124EE6;
+  transition: .25s all ease;
+  pointer-events: none;
+  color: white;
+}
+/* Transition */
+.select-container:hover::after {
+  background-color: #3d65e7;
+
+}
+.select-container select option:hover{
+  background-color: #C3C4CA;
+}
+
+.schedule-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.schedule-controls button {
+  background-color: #124ee6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.schedule-controls button:hover {
+  background-color: #0e3ac2;
+}

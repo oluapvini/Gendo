@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { DoctorCard } from "../components/doctorCard";
+import { DoctorCard } from "../components/doctorCard/doctorCard";
 
 export function Home() {
 
@@ -15,37 +15,39 @@ export function Home() {
             <h3>Minha agenda</h3>
         </header>
         <div className="user-info">
-            <div className="perfil-img">
+            <div className="perfil-img main-perfil-img">
                 <img src="" alt="imagem perfil" />
             </div>
-            <div>
+            <div class="user-info-datails">
                 <h3>
                     Meu Nome da Silva
                 </h3>
                 <p>momepessoa15@gmail.com</p>
-                <div>
+                <div class="user-type">
                     <p>Paciente</p>
                 </div>
             </div>
-            <button>Editar perfil</button>
+            <button className="dark-btn">Editar perfil</button>
         </div>
-        <section className="scheduler">
+        <section className="scheduler section">
             <h1>Agendar nova consulta</h1>
-            <div>
-                <div>
-                    <p>Região</p>
+            <div className="scheduler-info">
+                <div className="scheduler-location">
+                    <h3>Região</h3>
                     <p>CEP:2737237</p>
                     <p>Rio de janero, RJ</p>
                     <p>Rua general almofadas, 2034</p>
-                    <button>Alterar</button>
+                    <button className="blue-btn">Alterar</button>
                 </div>
                 <div>
-                    <p>Qual especialidade você procura?</p>
-                    <select name="" id="">
-                        <option value="valor1">Valor 1</option>
-                        <option value="valor2" selected>Valor 2</option>
-                        <option value="valor3">Valor 3</option>
-                    </select>
+                    <h3>Qual especialidade você procura?</h3>
+                    <div className="select-container">
+                        <select  name="" id="">
+                            <option value="valor1">Valor 1</option>
+                            <option value="valor2" selected>Valor 2</option>
+                            <option value="valor3">Valor 3</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <DoctorCard></DoctorCard>
