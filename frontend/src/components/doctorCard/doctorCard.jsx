@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./doctorCard.css";
+import { Calendar, MapPin, Clock, User, Mail, ChevronLeft, Search, Menu } from 'lucide-react';
 
 const generateNextDates = (start, count) => {
   const dates = [];
@@ -17,7 +18,7 @@ const formatDate = (date) =>
 const formatWeekday = (date) =>
   date.toLocaleDateString("pt-BR", { weekday: "short" });
 
-export function DoctorCard() {
+export function DoctorCard({ doctor }) {
   const [selected, setSelected] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
 
@@ -54,25 +55,23 @@ export function DoctorCard() {
       <div className="card-info">
         <div className="card-info-id">
           <div className="perfil-img">
-            <img src="../../assets/react.svg" alt="imagem perfil" />
+              <img src={doctor.image} alt={`Foto de ${doctor.name}`} />
+            </div>
+            <div>
+              <h3>{doctor.name}</h3>
+              <p>{doctor.specialty}</p>
+            </div>
           </div>
-          <div>
-            <h3>DR. Thomas Turbelin</h3>
-            <p>Dermatologista</p>
+          <div className="card-info-details">
+            <h3>Endereço</h3>
+            <div>
+              <p>{doctor.address}</p>
+            </div>
+            <div>
+              <p>{doctor.serviceType}</p>
+            </div>
           </div>
         </div>
-        <div className="card-info-details">
-          <h3>Endereço</h3>
-          <div>
-            <img src="" alt="icon" />
-            <p>Rua. Conde sla das quantas 112 - lala</p>
-          </div>
-          <div>
-            <img src="" alt="icon" />
-            <p>Consulta dermatológica</p>
-          </div>
-        </div>
-      </div>
 
       <div className="vertical-div"></div>
 

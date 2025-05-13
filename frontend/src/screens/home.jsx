@@ -1,11 +1,29 @@
 import React from "react";
 import { useState } from "react";
 import { DoctorCard } from "../components/doctorCard/DoctorCard";
+import { useEffect } from "react";
+import { doctors, specialties, userData as initialUserData } from "../data/doctorData";
 
 export function Home() {
+    const [selectedSpecialty, setSelectedSpecialty] = useState("all");
+    const [filteredDoctors, setFilteredDoctors] = useState(doctors);
 
-  return (
-    
+    const handleSpecialtyChange = (e) => {
+        setSelectedSpecialty(e.target.value);
+    };
+     useEffect(() => {
+    if (selectedSpecialty === "all") {
+      setFilteredDoctors(doctors);
+    } else {
+      const filtered = doctors.filter(
+        doctor => doctor.specialty.toLowerCase() === selectedSpecialty.toLowerCase()
+      );
+      setFilteredDoctors(filtered);
+    }
+  }, [selectedSpecialty]);
+
+    return (
+      
     <>
         <div className="blue-line"></div>
         <div className="home">
@@ -45,18 +63,26 @@ export function Home() {
                     <div>
                         <h3>Qual especialidade você procura?</h3>
                         <div className="select-container">
-                            <select  name="" id="">
-                                <option value="valor1">Valor 1</option>
-                                <option value="valor2" selected>Valor 2</option>
-                                <option value="valor3">Valor 3</option>
+                            <select value={selectedSpecialty} onChange={handleSpecialtyChange}>
+                                {specialties.map((specialty) => (
+                                <option key={specialty.value} value={specialty.value}>
+                                    {specialty.label}
+                                </option>
+                                ))}
                             </select>
                         </div>
                     </div>
                 </div>
-                <DoctorCard></DoctorCard>
-                <DoctorCard></DoctorCard>
-                <DoctorCard></DoctorCard>
-            </section>
+                {filteredDoctors.length > 0 ? (
+                  filteredDoctors.map((doctor) => (
+                    <DoctorCard key={doctor.id} doctor={doctor} />
+                  ))
+                ) : (
+                  <div style={{ textAlign: "center", padding: "2rem" }}>
+                    <p>Nenhum médico encontrado para esta especialidade.</p>
+                  </div>
+                )}
+              </section>
         </div>
     </>
   );
