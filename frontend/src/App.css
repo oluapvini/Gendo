@@ -104,11 +104,17 @@ body{
   gap:10px;
   align-items: center;
 }
+.sections{
+  display: flex;
+  flex-direction: column;
+  padding: 0px 2rem;
+}
 .section{
   background-color: white;
   border-radius: 20px;
-  margin: 1rem 20rem;
+  margin: 1rem auto;
   padding: 2rem 5rem;
+  max-width: 90rem;
   display: flex;
   flex-direction: column;
   gap:2rem;
@@ -199,7 +205,7 @@ body{
 .select-container {
   position: relative;
   display: flex;
-  width: 25rem;
+  max-width: 25rem;
   height: 2.5rem;
   border-radius: .25rem;
   overflow: hidden;

@@ -50,39 +50,41 @@ export function Home() {
                 </div>
                 <button className="dark-btn">Editar perfil</button>
             </div>
-            <section className="scheduler section">
-                <h1>Agendar nova consulta</h1>
-                <div className="scheduler-info">
-                    <div className="scheduler-location">
-                        <h3>Região</h3>
-                        <p>CEP:2737237</p>
-                        <p>Rio de janero, RJ</p>
-                        <p>Rua general almofadas, 2034</p>
-                        <button className="blue-btn">Alterar</button>
-                    </div>
-                    <div>
-                        <h3>Qual especialidade você procura?</h3>
-                        <div className="select-container">
-                            <select value={selectedSpecialty} onChange={handleSpecialtyChange}>
-                                {specialties.map((specialty) => (
-                                <option key={specialty.value} value={specialty.value}>
-                                    {specialty.label}
-                                </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                {filteredDoctors.length > 0 ? (
-                  filteredDoctors.map((doctor) => (
-                    <DoctorCard key={doctor.id} doctor={doctor} />
-                  ))
-                ) : (
-                  <div style={{ textAlign: "center", padding: "2rem" }}>
-                    <p>Nenhum médico encontrado para esta especialidade.</p>
+            <div className="sections">
+              <section className="scheduler section">
+                  <h1>Agendar nova consulta</h1>
+                  <div className="scheduler-info">
+                      <div className="scheduler-location">
+                          <h3>Região</h3>
+                          <p>CEP:2737237</p>
+                          <p>Rio de janero, RJ</p>
+                          <p>Rua general almofadas, 2034</p>
+                          <button className="blue-btn">Alterar</button>
+                      </div>
+                      <div>
+                          <h3>Qual especialidade você procura?</h3>
+                          <div className="select-container">
+                              <select value={selectedSpecialty} onChange={handleSpecialtyChange}>
+                                  {specialties.map((specialty) => (
+                                  <option key={specialty.value} value={specialty.value}>
+                                      {specialty.label}
+                                  </option>
+                                  ))}
+                              </select>
+                          </div>
+                      </div>
                   </div>
-                )}
-              </section>
+                  {filteredDoctors.length > 0 ? (
+                    filteredDoctors.map((doctor) => (
+                      <DoctorCard key={doctor.id} doctor={doctor} />
+                    ))
+                  ) : (
+                    <div style={{ textAlign: "center", padding: "2rem" }}>
+                      <p>Nenhum médico encontrado para esta especialidade.</p>
+                    </div>
+                  )}
+                </section>
+            </div>
         </div>
     </>
   );
