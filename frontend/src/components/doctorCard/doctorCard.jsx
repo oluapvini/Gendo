@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import "./doctorCard.css";
-import { Calendar, MapPin, Clock, User, Mail, ChevronLeft, Search, Menu } from 'lucide-react';
 
 const generateNextDates = (start, count) => {
   const dates = [];
   const date = new Date(start);
   while (dates.length < count) {
-    dates.push(new Date(date)); // Adiciona todos os dias
+    dates.push(new Date(date));
     date.setDate(date.getDate() + 1);
   }
   return dates;
@@ -18,33 +17,27 @@ const formatDate = (date) =>
 const formatWeekday = (date) =>
   date.toLocaleDateString("pt-BR", { weekday: "short" });
 
-export function DoctorCard({ doctor }) {
+export function DoctorCard({ doctor, onScheduleSelect }) {
   const [selected, setSelected] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
 
-  const allDates = generateNextDates(new Date(), 10);
-  const visibleCount = 5;
+  // Gera 30 dias a partir de hoje
+  const allDates = generateNextDates(new Date(), 30);
+
+  // Mostra 7 dias por vez na tela (pode mudar)
+  const visibleCount = 7;
   const visibleDays = allDates.slice(startIndex, startIndex + visibleCount);
 
-  const schedule = {
-    [formatDate(allDates[0])]: ["08:30", "09:30", "10:30", "11:00", "12:00"],
-    [formatDate(allDates[1])]: ["07:00", "09:30", "11:30", "13:00"],
-    [formatDate(allDates[2])]: ["09:30", "10:30"],
-    [formatDate(allDates[3])]: ["09:30"],
-    [formatDate(allDates[4])]: ["09:30"],
-    [formatDate(allDates[5])]: ["08:00", "10:00", "11:30"],
-    [formatDate(allDates[6])]: ["09:00", "10:00", "14:00"],
-    [formatDate(allDates[7])]: [],
-    [formatDate(allDates[8])]: ["09:00", "12:00"],
-    [formatDate(allDates[9])]: ["08:00", "10:00"]
-  };
-
-  // Todos os horários possíveis
-  const allTimes = Array.from(new Set(Object.values(schedule).flat())).sort();
+  // Horários únicos disponíveis no schedule do médico, ordenados
+  const allTimes = Array.from(
+    new Set(Object.values(doctor.schedule).flat())
+  ).sort();
 
   const handleClick = (date, time) => {
     setSelected({ date, time });
-    alert(`Consulta marcada para ${date} às ${time}`);
+    if (onScheduleSelect) {
+      onScheduleSelect({ doctor, date, time });
+    }
   };
 
   const canGoBack = startIndex > 0;
@@ -55,23 +48,23 @@ export function DoctorCard({ doctor }) {
       <div className="card-info">
         <div className="card-info-id">
           <div className="perfil-img">
-              <img src={doctor.image} alt={`Foto de ${doctor.name}`} />
-            </div>
-            <div>
-              <h3>{doctor.name}</h3>
-              <p>{doctor.specialty}</p>
-            </div>
+            <img src={doctor.image} alt={`Foto de ${doctor.name}`} />
           </div>
-          <div className="card-info-details">
-            <h3>Endereço</h3>
-            <div>
-              <p>{doctor.address}</p>
-            </div>
-            <div>
-              <p>{doctor.serviceType}</p>
-            </div>
+          <div>
+            <h3>{doctor.name}</h3>
+            <p>{doctor.specialty}</p>
           </div>
         </div>
+        <div className="card-info-details">
+          <h3>Endereço</h3>
+          <div>
+            <p>{doctor.address.street}</p>
+            <p>
+              {doctor.address.city}, {doctor.address.state}
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className="vertical-div"></div>
 
@@ -104,20 +97,24 @@ export function DoctorCard({ doctor }) {
                   <tr key={i}>
                     {visibleDays.map((day, j) => {
                       const dateStr = formatDate(day);
-                      const isAvailable = schedule[dateStr]?.includes(time);
+                      // verifica se o horário está disponível na agenda do médico para a data
+                      const isAvailable =
+                        doctor.schedule[dateStr]?.includes(time) || false;
                       const isSelected =
                         selected?.date === dateStr && selected?.time === time;
                       return (
                         <td key={j}>
                           {isAvailable ? (
                             <div
-                              className={`time-slot ${isSelected ? "selected" : ""}`}
+                              className={`time-slot ${
+                                isSelected ? "selected" : ""
+                              }`}
                               onClick={() => handleClick(dateStr, time)}
                             >
                               {time}
                             </div>
                           ) : (
-                            <div>-</div> // Exibe '-' quando o horário não estiver disponível
+                            <div>-</div>
                           )}
                         </td>
                       );
