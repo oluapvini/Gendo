@@ -10,7 +10,7 @@ namespace Api.Data.Context
 {
     public class ContextFactory : IDesignTimeDbContextFactory<MyContext>{
         public MyContext CreateDbContext (string[] args){
-             var connectionString = "Server=localhost;Port=5433;Database=TCC;User Id=admin;Password=1234";
+             var connectionString = "Server=localhost;Port=5433;Database=PJSDATABASE;User Id=admin;Password=1234";
 
             var optionsBuilder = new DbContextOptionsBuilder<MyContext>();
             optionsBuilder.UseNpgsql(connectionString);
