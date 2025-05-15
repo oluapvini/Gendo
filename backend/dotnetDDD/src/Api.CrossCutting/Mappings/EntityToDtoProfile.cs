@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Domain.Dto;
+using Api.Domain.Dto.Appointment;
 using Api.Domain.Dto.Setor;
 using Api.Domain.Dto.User;
 using Api.Domain.Entities;
@@ -21,6 +22,15 @@ namespace Api.CrossCutting.Mappings
                 .ReverseMap();
 
             CreateMap<UserPutDto,UserEntity>()
+                .ReverseMap();
+
+            CreateMap<AppointmentResultDto,AppointmentEntity>()
+                .ReverseMap();
+
+            CreateMap<AppointmentPostDto, AppointmentEntity>()
+                .ReverseMap();
+
+            CreateMap<AppointmentPutDto,AppointmentEntity>()
                 .ReverseMap();
         }
     }

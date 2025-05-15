@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Domain.Dto.Doctor;
+using Api.Domain.Dto.Patient;
+using Api.Domain.Entities.Enums;
 
 namespace Api.Domain.Dto.Setor
 {
@@ -20,5 +23,10 @@ namespace Api.Domain.Dto.Setor
         [Required(ErrorMessage = "Senha é um campo obrigatório")]
         [StringLength(80, ErrorMessage = "Senha deve ter no máximo {1} caracteres")]
         public string Password {get;set;}
+
+        public UserTypeEnum Type {get;set;} = UserTypeEnum.Patient;
+
+        public DoctorPostDto? Doctor {get;set;}
+        public PatientPostDto? Patient {get;set;}
     }
 }

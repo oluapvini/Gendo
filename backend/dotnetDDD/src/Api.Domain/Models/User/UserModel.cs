@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Domain.Entities.Enums;
 
 namespace Api.Domain.Models.User
 {
@@ -50,6 +51,13 @@ namespace Api.Domain.Models.User
         {
             get { return _passwordResetTokenExpiration; }
             set { _passwordResetTokenExpiration = value; }
+        }
+        
+        private UserTypeEnum? _type;
+        public UserTypeEnum? Type
+        {
+            get { return _type; }
+            set { _type = value; }
         }
 
 

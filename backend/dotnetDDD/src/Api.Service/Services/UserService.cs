@@ -13,6 +13,7 @@ using AutoMapper;
 using Api.Domain.Models.User;
 using BCrypt.Net;
 using Api.Domain.Interfaces.Repository;
+using Api.Domain.Entities.Enums;
 
 namespace Api.Service.Services
 {
@@ -20,13 +21,22 @@ namespace Api.Service.Services
     {
 
         private IUserRepository _repository;
+        private IRepository<DoctorEntity> _doctorRepository;
+        private IRepository<PatientEntity> _patientRepository;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository repository, IMapper mapper)
-        {
+        public UserService(
+            IUserRepository repository, 
+            IRepository<DoctorEntity> doctorRepository, 
+            IRepository<PatientEntity> patientRepository, 
+            IMapper mapper
+        ) {
             _repository = repository;
+            _doctorRepository = doctorRepository;
+            _patientRepository = patientRepository;
             _mapper = mapper;
         }
+
         public async Task<bool> Delete(Guid id)
         {
             return await _repository.DeleteAsync(id);
@@ -72,6 +82,26 @@ namespace Api.Service.Services
             var entity = _mapper.Map<UserEntity>(model);
 
             var result = await _repository.InsertAsync(entity);
+
+            if(user.Type == UserTypeEnum.Doctor) {
+                DoctorEntity newDoctor = new DoctorEntity {
+                    CRM = user.Doctor.CRM,
+                    Specialty = user.Doctor.Specialty,
+                    UserId = result.Id,
+                };
+
+                await _doctorRepository.InsertAsync(newDoctor);
+            }
+
+            if(user.Type == UserTypeEnum.Patient) {
+                PatientEntity newDoctor = new PatientEntity {
+                    BirthdayDate = user.Patient.BirthdayDate,
+                    Phone = user.Patient.Phone,
+                    UserId = result.Id,
+                };
+
+                await _patientRepository.InsertAsync(newDoctor);
+            }
 
             return _mapper.Map<UserResultDto>(result);
         }

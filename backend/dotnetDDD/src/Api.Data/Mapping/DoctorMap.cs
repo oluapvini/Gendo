@@ -13,6 +13,10 @@ namespace Api.Data.Mapping
                      builder.ToTable("Doctor");
 
                      builder.HasKey(u => u.Id);
+
+                     builder.HasMany(d => d.Appointments)
+                            .WithOne(a => a.Doctor)
+                            .HasForeignKey(a => a.DoctorId);
               }
        }
 }
