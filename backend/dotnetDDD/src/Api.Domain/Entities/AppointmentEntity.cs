@@ -15,6 +15,6 @@ namespace Api.Domain.Entities
         public Guid DoctorId {get;set;}
         public Guid? PatientId {get;set;}
         public DateTime DateTime {get;set;}
-        public AppointmentStatusEnum Status {get;set;}
+        public AppointmentStatusEnum Status { get; set; }
     }
 }

@@ -16,53 +16,32 @@ namespace Api.Application.Controllers
 {   
     [Route ("api/[controller]")]
     [ApiController]
-    public class AppointmentController : ControllerBase
+    public class DoctorController : ControllerBase
     {
-        private IAppointmentService _service;
+        private IDoctorService _service;
 
-        public AppointmentController (IAppointmentService service){
+        public DoctorController (IDoctorService service){
             _service = service;
         }
 
-        [Authorize("Bearer")]
-        [HttpPost]
-        [Route ("GetAllByFilter")]
-        public async Task<ActionResult> GetAllByFilter([FromBody] AppointmentFilter filter){
-            
-            if(!ModelState.IsValid){
-                return BadRequest(ModelState); //400 bad request - Solicitação Inválida
-            }
-
-            try{
-                return Ok(await _service.GetAll(filter));
-            }
-            catch(ArgumentException e)
-            {
-                return StatusCode ((int) HttpStatusCode.InternalServerError, e.Message);
-            }
-        }
-
-        [Authorize("Bearer")]
-        [HttpPost]
-        [Route ("GetLastAppointmentByDoctors")]
-        public async Task<ActionResult> GetLastAppointmentByDoctors([FromBody] LastAppointmentByDoctorsFilter filter){
-            
-            if(!ModelState.IsValid){
-                return BadRequest(ModelState); //400 bad request - Solicitação Inválida
-            }
-
-            try{
-                return Ok(await _service.GetLastAppointmentByDoctors(filter));
-            }
-            catch(ArgumentException e)
-            {
-                return StatusCode ((int) HttpStatusCode.InternalServerError, e.Message);
-            }
-        }
-        
-        [Authorize("Bearer")]
         [HttpGet]
-        [Route ("{id}", Name = "GetAppointmentWithId")]
+        public async Task<ActionResult> GetAll([FromQuery] DoctorFilter doctorFilter){
+            
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState); //400 bad request - Solicitação Inválida
+            }
+
+            try{
+                return Ok(await _service.GetAll(doctorFilter));
+            }
+            catch(ArgumentException e)
+            {
+                return StatusCode ((int) HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route ("{id}", Name = "GetDoctorWithId")]
         public async Task<ActionResult> Get(Guid id){
 
             if(!ModelState.IsValid){
@@ -78,16 +57,65 @@ namespace Api.Application.Controllers
 
         }
 
+        [HttpGet]
+        [Route ("Specialties")]
+        public async Task<ActionResult> GetSpecialties(){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState); //400 bad request - Solicitação Inválida
+            }
+
+            try{
+                return Ok(await _service.GetSpecialties());
+            }catch(ArgumentException e)
+            {
+                return StatusCode((int) HttpStatusCode.InternalServerError, e.Message);
+            }
+
+        }
+
+        [HttpGet]
+        [Route ("States")]
+        public async Task<ActionResult> GetStates(){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState); //400 bad request - Solicitação Inválida
+            }
+
+            try{
+                return Ok(await _service.GetStates());
+            }catch(ArgumentException e)
+            {
+                return StatusCode((int) HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route ("Cities")]
+        public async Task<ActionResult> GetCitiesByState([FromQuery] string state){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState); //400 bad request - Solicitação Inválida
+            }
+
+            try{
+                return Ok(await _service.GetCitiesByState(state));
+            }catch(ArgumentException e)
+            {
+                return StatusCode((int) HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
         [HttpPost]
         
-        public async Task<IActionResult> Post([FromBody] AppointmentPostDto appointment){
+        public async Task<IActionResult> Post([FromBody] DoctorEntity doctor){
 
             if(!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
 
             try{
-                var result = await _service.Post(appointment);
+                var result = await _service.Post(doctor);
 
                 if(result != null){
                     return Ok(result);
@@ -105,7 +133,7 @@ namespace Api.Application.Controllers
         [Authorize("Bearer")]
         [HttpPut]
 
-        public async Task<IActionResult> Put([FromBody] AppointmentPutDto appointment){
+        public async Task<IActionResult> Put([FromBody] DoctorEntity doctor){
 
             if(!ModelState.IsValid){
                 return BadRequest(ModelState);
@@ -113,7 +141,7 @@ namespace Api.Application.Controllers
 
             try{
 
-                var result = await _service.Put(appointment);
+                var result = await _service.Put(doctor);
 
                 if(result != null){
                     return Ok(result);
@@ -136,14 +164,12 @@ namespace Api.Application.Controllers
             }
 
             try{
-                var result = await _service.Delete(id);
-
-                if(result != null){
+                bool result = await _service.Delete(id);
+                if(result){
                     return Ok();
                 }else{
                     return BadRequest();
                 }
-
 
             }catch(ArgumentException e){
                 return StatusCode((int) HttpStatusCode.InternalServerError, e.Message);

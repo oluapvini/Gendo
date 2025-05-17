@@ -12,6 +12,7 @@ namespace Api.Data.Context
     {
         public DbSet<AppointmentEntity> Appointment { get; set; }
         public DbSet<DoctorEntity> Doctor { get; set; }
+        public DbSet<AddressEntity> Address { get; set; }
         public DbSet<PatientEntity> Patient { get; set; }
         public DbSet<UserEntity> User { get; set; }
 
@@ -20,6 +21,7 @@ namespace Api.Data.Context
         protected override void OnModelCreating (ModelBuilder modelBuilder){
             base.OnModelCreating (modelBuilder);
             modelBuilder.Entity<AppointmentEntity> (new AppointmentMap().Configure);
+            modelBuilder.Entity<AddressEntity> (new AddressMap().Configure);
             modelBuilder.Entity<DoctorEntity> (new DoctorMap().Configure);
             modelBuilder.Entity<PatientEntity> (new PatientMap().Configure);
             modelBuilder.Entity<UserEntity> (new UserMap().Configure);

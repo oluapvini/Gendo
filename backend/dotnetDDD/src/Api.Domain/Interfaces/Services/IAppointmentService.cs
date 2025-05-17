@@ -13,7 +13,7 @@ namespace Api.Domain.Interfaces.Services
         Task<List<LastAppointmentByDoctorsDto>> GetLastAppointmentByDoctors (LastAppointmentByDoctorsFilter filter);
         Task<AppointmentResultDto> Post(AppointmentPostDto appointment);
         Task<AppointmentResultDto> Put(AppointmentPutDto appointment);
-        Task<bool> Delete(Guid id);
+        Task<AppointmentResultDto> Delete(Guid id);
     
     }
 }

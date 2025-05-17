@@ -13,6 +13,7 @@ using AutoMapper;
 using BCrypt.Net;
 using Api.Domain.Interfaces.Repository;
 using Api.Domain.Filter;
+using Api.Domain.Entities.Enums;
 
 namespace Api.Service.Services
 {
@@ -27,9 +28,15 @@ namespace Api.Service.Services
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<bool> Delete(Guid id)
+        public async Task<AppointmentResultDto> Delete(Guid id)
         {
-            return await _repository.DeleteAsync(id);
+            AppointmentEntity entity = await _repository.SelectAsync(id);
+
+            entity.Status = AppointmentStatusEnum.Canceled;
+
+            AppointmentEntity result = await _repository.UpdateAsync(entity);
+
+            return _mapper.Map<AppointmentResultDto>(result);
         }
 
         public async Task<AppointmentResultDto> Get(Guid id)
