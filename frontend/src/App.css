@@ -91,14 +91,7 @@ body{
   gap: 10px;
 }
 
-.user-info{
-  display:flex;
-  background-color: #5B5A67;
-  padding: 5rem 0rem;
-  justify-content: center;
-  gap:2rem;
-  align-items: center;
-}
+
 .home-header > div{
   display: flex;
   gap:10px;
@@ -114,7 +107,8 @@ body{
   border-radius: 20px;
   margin: 1rem auto;
   padding: 2rem 5rem;
-  max-width: 90rem;
+  width: 100%;
+  max-width: 200rem;
   display: flex;
   flex-direction: column;
   gap:2rem;
@@ -150,20 +144,26 @@ body{
   width: 7rem;
   height: 7rem;
 }
-.user-info-datails{
-  display: flex;
-  flex-direction: column;
-  color: white;
+.slogan-section{
+  display:flex;
+  background-color: #124EE6;
+  padding: 5rem 0rem;
+  justify-content: center;
+  gap:1rem;
+  align-items: center;
 }
-.user-type{
-  margin-top: 0.5rem;
-  color: black;
-  background-color: #d1d1e03b;
-  width: 5rem;
-  border-radius:5px;
-  padding: 2px;
-  text-align: center;
-  
+.slogan{
+  display: flex;
+  color: #fffffff6;
+  align-items: end;
+  gap:0.5rem;
+  font-weight: bold;
+}
+.slogan > h1{
+  font-size: 70px;
+}
+.slogan>p{
+  padding-bottom: 12px;
 }
 .dark-btn{
   color: white;
@@ -186,6 +186,14 @@ body{
   cursor:pointer;
 }
 
+.scheduler-location{
+  min-width:20rem;
+}
+.locations-input{
+  display: flex;
+  gap:5rem
+}
+
 .select-container select {
   appearance: none;
   border: 1px solid #C3C4CA;
@@ -196,6 +204,7 @@ body{
   background-color: white;
   background-image: none;
   cursor: pointer;
+  min-width: 15rem;
 }
 
 .select-container select::-ms-expand {
