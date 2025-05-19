@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { DoctorCard } from "../components/doctorCard/DoctorCard";
+import { DoctorCard } from "../components/doctorCard/doctorCard";
 import { doctors, specialties } from "../data/doctorData";
 
 export function Home() {
@@ -11,9 +11,8 @@ export function Home() {
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const consultationRef = useRef(null);
 
-  // Paginação
   const [currentPage, setCurrentPage] = useState(1);
-  const doctorsPerPage = 5; // quantos médicos por página
+  const doctorsPerPage = 3; // <-- ALTERADO: diminuir para 3
 
   const states = Array.from(new Set(doctors.map((doc) => doc.address.state)));
   const filteredCities =
@@ -76,18 +75,16 @@ export function Home() {
   }, [selectedSpecialty, selectedCity, selectedState]);
 
   useEffect(() => {
-  if (showConsultationSection && consultationRef.current) {
-    consultationRef.current.scrollIntoView({ behavior: "smooth" });
-  }
+    if (showConsultationSection && consultationRef.current) {
+      consultationRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [showConsultationSection, selectedSchedule]);
-
 
   const handleScheduleSelect = ({ doctor, date, time }) => {
     setSelectedSchedule({ doctor, date, time });
     setShowConsultationSection(true);
   };
 
-  // calcula índices para slice dos médicos da página atual
   const indexOfLastDoctor = currentPage * doctorsPerPage;
   const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
   const currentDoctors = filteredDoctors.slice(
@@ -111,11 +108,14 @@ export function Home() {
       <div className="home">
         <header className="home-header">
           <div>
-            <p>&lt;</p>
             <p className="gendo-title">GENDO</p>
           </div>
-          <img src="#" alt="icone agenda" />
-          <h3>Minha agenda</h3>
+          <div>
+            <button className="slim-btn">
+              <img src="../assets/login.png" alt="icon login" />
+              Login Profissional
+            </button>
+          </div>
         </header>
 
         <div className="slogan-section">
@@ -187,72 +187,124 @@ export function Home() {
               </div>
             </div>
 
+            {/* REMOVIDO o if que exigia selectedState !== "all" para mostrar os doutores */}
             {currentDoctors.length > 0 ? (
-              currentDoctors.map((doctor) => (
-                <DoctorCard
-                  key={doctor.id}
-                  doctor={doctor}
-                  onScheduleSelect={handleScheduleSelect}
-                />
-              ))
-            ) : (
-              <div style={{ textAlign: "center", padding: "2rem" }}>
-                <p>Nenhum médico encontrado com os filtros selecionados.</p>
-              </div>
-            )}
+              <>
+                {currentDoctors.map((doctor) => (
+                  <DoctorCard
+                    key={doctor.id}
+                    doctor={doctor}
+                    onScheduleSelect={handleScheduleSelect}
+                  />
+                ))}
 
-            {/* Paginação */}
-            {filteredDoctors.length > doctorsPerPage && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "1rem",
-                  marginTop: "1rem",
-                  alignItems:"center"
-                }}
-              >
-                <button className="blue-btn" onClick={goToPrevPage} disabled={currentPage === 1}>
-                  Anterior
-                </button>
-                <span>
-                  Página {currentPage} de {totalPages}
-                </span>
-                <button className="blue-btn"onClick={goToNextPage} disabled={currentPage === totalPages}>
-                  Próximo
-                </button>
+                {filteredDoctors.length > doctorsPerPage && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "1rem",
+                      marginTop: "1rem",
+                      alignItems: "center",
+                    }}
+                  >
+                    <button
+                      className="blue-btn"
+                      onClick={goToPrevPage}
+                      disabled={currentPage === 1}
+                    >
+                      Anterior
+                    </button>
+                    <span>
+                      Página {currentPage} de {totalPages}
+                    </span>
+                    <button
+                      className="blue-btn"
+                      onClick={goToNextPage}
+                      disabled={currentPage === totalPages}
+                    >
+                      Próximo
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div>
+                <p>Nenhum médico encontrado com os filtros selecionados.</p>
               </div>
             )}
           </section>
 
           {showConsultationSection && selectedSchedule && (
-            <section ref={consultationRef} className="section">
-              <h2>Informações da Consulta</h2>
-              <p><strong>Médico:</strong> {selectedSchedule.doctor.name}</p>
-              <p><strong>Especialidade:</strong> {selectedSchedule.doctor.specialty}</p>
-              <p><strong>Data:</strong> {selectedSchedule.date}</p>
-              <p><strong>Horário:</strong> {selectedSchedule.time}</p>
+            <section ref={consultationRef} className="user-info-sec">
+              <div className="info-form">
+                <h2>Informações da Consulta</h2>
+                <div className="doctor-info">
+                  <div>
+                    <h4>Médico:</h4>
+                    <p>{selectedSchedule.doctor.name}</p>
+                  </div>
+                  <div>
+                    <h4>Especialidade:</h4>
+                    <p>{selectedSchedule.doctor.specialty}</p>
+                  </div>
+                  <div>
+                    <h4>Data:</h4>
+                    <p>{selectedSchedule.date}</p>
+                  </div>
+                  <div>
+                    <h4>Horário:</h4>
+                    <p>{selectedSchedule.time}</p>
+                  </div>
+                </div>
+                <form className="consultation-form">
+                  <h3>Dados para contato</h3>
+                  <div>
+                    <label>Nome completo:</label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      className="text-input"
+                    />
+                  </div>
+                  <div>
+                    <label>E-mail:</label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      className="text-input"
+                    />
+                  </div>
 
-              <form className="consultation-form">
-                <h3>Dados para contato</h3>
-                <label>
-                  Nome completo:
-                  <input type="text" name="name" required />
-                </label>
-                <label>
-                  E-mail:
-                  <input type="email" name="email" required />
-                </label>
-                <label>
-                  Telefone:
-                  <input type="tel" name="phone" required />
-                </label>
-                <label>
-                  Comentários adicionais:
-                  <textarea name="message" rows="4" />
-                </label>
-                <button type="submit">Enviar solicitação</button>
-              </form>
+                  <div>
+                    <label>Telefone:</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      required
+                      className="text-input"
+                    />
+                  </div>
+
+                  <div>
+                    <label>Comentários adicionais:</label>
+                    <textarea
+                      name="message"
+                      rows="4"
+                      className="text-input"
+                    />
+                  </div>
+
+                  <button type="submit" className="blue-btn">
+                    Enviar solicitação
+                  </button>
+                </form>
+              </div>
+              <div className="smile">
+                <p>:)</p>
+              </div>
             </section>
           )}
         </div>
