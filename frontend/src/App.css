@@ -387,3 +387,33 @@ body {
 .icon{
   width: 24px;
 }
+
+.consulta-item {
+  background-color: #ededf3;
+  padding: 2rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid #C3C4CA;
+  flex-wrap: wrap;
+  gap: 1rem; 
+  overflow: visible;
+  width: 40rem;
+}
+
+.consulta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-height: 30rem;
+  overflow-y: auto;
+  padding-right: 1rem; 
+}
+
+.list{
+  display: flex;
+  flex-direction: column;
+  gap:2rem;
+  padding: 2rem 5rem;
+}

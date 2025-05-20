@@ -198,7 +198,6 @@ export function Home() {
               </div>
             </div>
 
-            {/* REMOVIDO o if que exigia selectedState !== "all" para mostrar os doutores */}
             {currentDoctors.length > 0 ? (
               <>
                 {currentDoctors.map((doctor) => (
