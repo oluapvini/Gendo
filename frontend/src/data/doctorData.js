@@ -3,7 +3,7 @@ export const doctors = [
     id: 1,
     name: "Dr. Thomas Turbelin",
     specialty: "Dermatologista",
-    image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e", // male doctor
+    image: "https://58b04f5940c1474e557e363a.redesign.static-01.com/l/images/por-que-as-pessoas-chamam-os-medicos-de-doutor.jpg", // male doctor
     address: {
       street: "Rua Conde de Bonfim, 112 - Tijuca",
       city: "Rio de Janeiro",
@@ -22,7 +22,7 @@ export const doctors = [
     id: 2,
     name: "Dra. Ana Beatriz Costa",
     specialty: "Cardiologista",
-    image: "https://images.unsplash.com/photo-1588776814546-bd58c67b2ad4", // female doctor
+    image: "https://empreendedor.com.br/wp-content/uploads/2021/01/rsw_350h_263i_truecg_trueft_cover.jpg", // female doctor
     address: {
       street: "Av. das Américas, 500 - Barra da Tijuca",
       city: "Rio de Janeiro",
@@ -40,7 +40,7 @@ export const doctors = [
     id: 3,
     name: "Dr. Roberto Menezes",
     specialty: "Ortopedista",
-    image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7", // male doctor
+    image: "https://redeodontobrasil.com.br/wp-content/uploads/2023/02/takeo-1.jpg", // male doctor
     address: {
       street: "Rua Visconde de Pirajá, 351 - Ipanema",
       city: "Rio de Janeiro",

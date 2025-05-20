@@ -1,6 +1,11 @@
+
+import { useNavigate } from "react-router-dom";
+
 import React, { useState, useEffect, useRef } from "react";
 import { DoctorCard } from "../components/doctorCard/doctorCard";
 import { doctors, specialties } from "../data/doctorData";
+
+import loginIcon from "../assets/login.png"
 
 export function Home() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("all");
@@ -12,7 +17,13 @@ export function Home() {
   const consultationRef = useRef(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const doctorsPerPage = 3; // <-- ALTERADO: diminuir para 3
+  const doctorsPerPage = 3; 
+
+  const navigate = useNavigate();
+
+  const handleProfessionalLogin = () => {
+    navigate("/login"); 
+  };
 
   const states = Array.from(new Set(doctors.map((doc) => doc.address.state)));
   const filteredCities =
@@ -111,9 +122,9 @@ export function Home() {
             <p className="gendo-title">GENDO</p>
           </div>
           <div>
-            <button className="slim-btn">
-              <img src="../assets/login.png" alt="icon login" />
+            <button className="slim-btn" onClick={handleProfessionalLogin}>
               Login Profissional
+              <img src={loginIcon} className="icon"alt="icon login" />
             </button>
           </div>
         </header>

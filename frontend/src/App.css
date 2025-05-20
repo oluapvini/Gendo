@@ -128,8 +128,8 @@ body{
 }
 
 .perfil-img {
-    width: 5rem;
-    height: 5rem;
+    width: 8rem;
+    height: 8rem;
     border-radius: 100%;
     display: flex;
     background-color: #C3C4CA;
@@ -340,6 +340,8 @@ body {
   cursor: pointer;
   display: flex;
   gap: 5px;
+  display: flex;
+  align-items: center;
 }
 .consultation-form > div{
   display: flex;
@@ -361,7 +363,6 @@ body {
   gap:2rem;
   padding: 2rem 5rem;
 }
-
 .user-info-sec{
   background-color: white;
   border-radius: 20px;
@@ -382,4 +383,7 @@ body {
   font-size: 200px;
   color: white;
   border-radius: 0px 20px 20px 0px;
+}
+.icon{
+  width: 24px;
 }
