@@ -38,7 +38,7 @@ namespace application
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:3000")
+                    builder => builder.WithOrigins("http://localhost:5173")
                                     .AllowAnyMethod()
                                     .AllowAnyHeader());
             });
@@ -92,7 +92,7 @@ namespace application
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API do TCC", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API de 5PJS", Version = "v1" });
 
                 c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {

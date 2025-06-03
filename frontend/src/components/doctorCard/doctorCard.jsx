@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./doctorCard.css";
+import doctorImage from "../../assets/doctor.svg";
 
 const generateNextDates = (start, count) => {
   const dates = [];
@@ -20,6 +21,10 @@ const formatWeekday = (date) =>
 export function DoctorCard({ doctor, onScheduleSelect }) {
   const [selected, setSelected] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
+
+  useEffect(() => {
+    console.log("doctor", doctor)
+  }, [])
 
   // Gera 30 dias a partir de hoje
   const allDates = generateNextDates(new Date(), 30);
@@ -48,7 +53,7 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
       <div className="card-info">
         <div className="card-info-id">
           <div className="perfil-img">
-            <img src={doctor.image} alt={`Foto de ${doctor.name}`} />
+            <img src={doctorImage} alt={`Foto do doutor`} width={40} />
           </div>
           <div>
             <h3>{doctor.name}</h3>
@@ -96,6 +101,7 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
                 {allTimes.map((time, i) => (
                   <tr key={i}>
                     {visibleDays.map((day, j) => {
+                      console.log("doctor.schedule", doctor.schedule)
                       const dateStr = formatDate(day);
                       // verifica se o horário está disponível na agenda do médico para a data
                       const isAvailable =

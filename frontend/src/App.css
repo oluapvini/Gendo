@@ -128,9 +128,7 @@ body{
 .perfil-img {
     width: 5rem;
     height: 5rem;
-    border-radius: 100%;
     display: flex;
-    background-color: #C3C4CA;
     overflow: hidden; 
     align-items: center;
     justify-content: center;

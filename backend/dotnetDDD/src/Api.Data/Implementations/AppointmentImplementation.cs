@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,18 +25,22 @@ namespace Api.Data.Implementations
             _doctorDataset = context.Set<DoctorEntity>();
         }
 
-        public async Task<List<LastAppointmentByDoctorsDto>> GetLastAppointmentByDoctors (LastAppointmentByDoctorsFilter filter) {
-            var result = await _doctorDataset 
+        public async Task<List<LastAppointmentByDoctorsDto>> GetLastAppointmentByDoctors(LastAppointmentByDoctorsFilter filter)
+        {
+            var result = await _doctorDataset
                 .Where(d => filter.Specialty == null || d.Specialty == filter.Specialty)
-                .Select(d => new LastAppointmentByDoctorsDto {
-                    Doctor = new DoctorResultAppointmentDto {
+                .Select(d => new LastAppointmentByDoctorsDto
+                {
+                    Doctor = new DoctorResultAppointmentDto
+                    {
                         CRM = d.CRM,
                         Specialty = d.Specialty,
                         Name = d.User.Nome
                     },
-                    LastAppointment =  d.Appointments
+                    LastAppointment = d.Appointments
                         .OrderBy(a => a.DateTime)
-                        .Select(a => new AppointmentResultDto {
+                        .Select(a => new AppointmentResultDto
+                        {
                             Id = a.Id,
                             Status = a.Status,
                             DateTime = a.DateTime
@@ -48,14 +53,24 @@ namespace Api.Data.Implementations
             return result;
         }
 
-        public async Task<List<AppointmentResultDto>> GetAllByFilter (AppointmentFilter filter) {
+        public async Task<List<AppointmentResultDto>> GetAllByFilter(AppointmentFilter filter)
+        {
             var result = await _dataset
                 .Where(a => filter.DoctorId == null || a.DoctorId == filter.DoctorId)
-                .Select(a => new AppointmentResultDto {
+                .Select(a => new AppointmentResultDto
+                {
                     DateTime = a.DateTime,
                     Status = a.Status
                 })
                 .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<AppointmentEntity> GetByDateTime(DateTime dateTime)
+        {
+            DateTime endTime = dateTime.AddMinutes(2);
+            var result = await _dataset.Where(d => d.DateTime >= dateTime && d.DateTime <= endTime).FirstOrDefaultAsync();
 
             return result;
         }

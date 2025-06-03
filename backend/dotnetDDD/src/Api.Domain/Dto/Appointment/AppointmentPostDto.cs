@@ -14,8 +14,6 @@ namespace Api.Domain.Dto.Appointment
 
         [Required(ErrorMessage = "Date é campo obrigatório!")]
         public DateTime DateTime {get;set;}
-
-        public Guid? PatientId {get;set;}
         
         public AppointmentStatusEnum Status {get;set;} = AppointmentStatusEnum.Pending;
     }

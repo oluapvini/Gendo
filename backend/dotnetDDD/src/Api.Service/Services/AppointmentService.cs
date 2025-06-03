@@ -66,6 +66,10 @@ namespace Api.Service.Services
 
         public async Task<AppointmentResultDto> Put(AppointmentPutDto appointment)
         {
+            AppointmentEntity lastAppointment = await _repository.GetByDateTime(appointment.DateTime);
+
+            appointment.Id = lastAppointment.Id;
+
             var entity = _mapper.Map<AppointmentEntity>(appointment);
 
             var result = await _repository.UpdateAsync(entity);

@@ -13,5 +13,6 @@ namespace Api.Domain.Interfaces.Repository
     {
         Task<List<LastAppointmentByDoctorsDto>> GetLastAppointmentByDoctors (LastAppointmentByDoctorsFilter filter);
         Task<List<AppointmentResultDto>> GetAllByFilter (AppointmentFilter filter);
+        Task<AppointmentEntity> GetByDateTime (DateTime dateTime);
     }
 }

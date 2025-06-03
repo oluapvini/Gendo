@@ -102,7 +102,6 @@ namespace Api.Application.Controllers
             }
         }
 
-        [Authorize("Bearer")]
         [HttpPut]
 
         public async Task<IActionResult> Put([FromBody] AppointmentPutDto appointment){

@@ -50,7 +50,7 @@ namespace Api.Data.Implementations
                      CRM = d.CRM,
                      Id = d.Id,
                      Name = d.User.Nome,
-                     Appointments = d.Appointments,
+                     Appointments = d.Appointments.Where(a => a.Status == Domain.Entities.Enums.AppointmentStatusEnum.Pending).ToList(),
                      ServiceType = d.ServiceType,
                      Specialty = d.Specialty
                  }).ToListAsync();

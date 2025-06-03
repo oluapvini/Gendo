@@ -1,15 +1,35 @@
 import React, { useState, useEffect, useRef } from "react";
 import { DoctorCard } from "../components/doctorCard/DoctorCard";
-import { doctors, specialties } from "../data/doctorData";
+import axios from "axios";
+import "./home.css"
 
 export function Home() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("all");
   const [selectedCity, setSelectedCity] = useState("all");
   const [selectedState, setSelectedState] = useState("all");
-  const [filteredDoctors, setFilteredDoctors] = useState(doctors);
+  const [doctors, setDoctors] = useState([]);
+  const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [specialties, setSpecialties] = useState([]);
   const [showConsultationSection, setShowConsultationSection] = useState(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
+  const [formData, setFormData] = useState({
+    patientName: "",
+    patientEmail: "",
+    patientPhone: "",
+    message: "",
+  });
+
   const consultationRef = useRef(null);
+
+  const formatDate = (isoDate) => {
+    const [year, month, day] = isoDate.split("-");
+    return `${day}/${month}`;
+  };
+
+  useEffect(() => {
+    fetchDoctors();
+    fetchSpecialties();
+  }, []);
 
   // Paginação
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +46,90 @@ export function Home() {
               .map((doc) => doc.address.city)
           )
         );
+
+  const fetchSpecialties = async () => {
+    try {
+      const response = await axios.get("http://localhost:5002/api/Doctor/Specialties");
+      const data = response.data;
+
+      const formattedData = data.map(specialty => ({
+        label: specialty, 
+        value: specialty
+      }))
+
+      setSpecialties([
+        { value: "all", label: "Todas as especialidades" },
+        ...formattedData
+      ]);
+    } catch (e) {
+      console.error("Erro ao buscar especialidades dos doutores", e)
+    }
+  }
+
+  const fetchDoctors = async () => {
+    try {
+      const response = await axios.get("http://localhost:5002/api/Doctor");
+      const data = response.data;
+
+      const transformed = data.map((medico) => ({
+        id: medico.id,
+        name: `Dr(a). ${medico.name}`,
+        specialty: medico.specialty,
+        image: "/", // imagem padrão, substitua se necessário
+        address: {
+          street: medico.address?.street || "",
+          city: medico.address?.city || "",
+          state: medico.address?.state || ""
+        },
+        serviceType: medico.serviceType || "Consulta padrão",
+        rating: 4.6, // valor fixo por enquanto
+        schedule: (medico.schedule || []).reduce((acc, item) => {
+          const date = formatDate(item.label);
+          acc[date] = item.values;
+          return acc;
+        }, {})
+      }));
+
+      setDoctors(transformed);
+    } catch (error) {
+      console.error("Erro ao buscar médicos:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log("selectedSchedule", selectedSchedule)
+
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = selectedSchedule.date.slice(3,5);
+    const day = selectedSchedule.date.slice(0,2);
+
+    const formattedDateTime = year + "-" + month + "-" + day + "T" + selectedSchedule.time;
+
+    try {
+      await axios.put("http://localhost:5002/api/Appointment", {
+        doctorId: selectedSchedule.doctor.id, // ou outro identificador
+        dateTime: formattedDateTime,
+        status: 2,
+        ...formData,
+      });
+
+      alert("Solicitação enviada com sucesso!");
+
+      fetchDoctors();
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao enviar solicitação.");
+    }
+  };
 
   const handleSpecialtyChange = (e) => {
     setSelectedSpecialty(e.target.value);
@@ -73,12 +177,12 @@ export function Home() {
 
     setFilteredDoctors(filtered);
     setCurrentPage(1);
-  }, [selectedSpecialty, selectedCity, selectedState]);
+  }, [selectedSpecialty, selectedCity, selectedState, doctors]);
 
   useEffect(() => {
-  if (showConsultationSection && consultationRef.current) {
-    consultationRef.current.scrollIntoView({ behavior: "smooth" });
-  }
+    if (showConsultationSection && consultationRef.current) {
+      consultationRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [showConsultationSection, selectedSchedule]);
 
 
@@ -226,34 +330,33 @@ export function Home() {
           </section>
 
           {showConsultationSection && selectedSchedule && (
-            <section ref={consultationRef} className="section">
+            <form className="consultation-form" onSubmit={handleSubmit}>
               <h2>Informações da Consulta</h2>
+
               <p><strong>Médico:</strong> {selectedSchedule.doctor.name}</p>
               <p><strong>Especialidade:</strong> {selectedSchedule.doctor.specialty}</p>
               <p><strong>Data:</strong> {selectedSchedule.date}</p>
               <p><strong>Horário:</strong> {selectedSchedule.time}</p>
 
-              <form className="consultation-form">
-                <h3>Dados para contato</h3>
-                <label>
-                  Nome completo:
-                  <input type="text" name="name" required />
-                </label>
-                <label>
-                  E-mail:
-                  <input type="email" name="email" required />
-                </label>
-                <label>
-                  Telefone:
-                  <input type="tel" name="phone" required />
-                </label>
-                <label>
-                  Comentários adicionais:
-                  <textarea name="message" rows="4" />
-                </label>
-                <button type="submit">Enviar solicitação</button>
-              </form>
-            </section>
+              <h3>Dados para contato</h3>
+              <label>
+                Nome completo:
+                <input type="text" name="patientName" required value={formData.patientName} onChange={handleChange} />
+              </label>
+              <label>
+                E-mail:
+                <input type="email" name="patientEmail" required value={formData.patientEmail} onChange={handleChange} />
+              </label>
+              <label>
+                Telefone:
+                <input type="tel" name="patientPhone" required value={formData.patientPhone} onChange={handleChange} />
+              </label>
+              <label>
+                Comentários adicionais:
+                <textarea name="message" rows="4" value={formData.message} onChange={handleChange} />
+              </label>
+              <button type="submit">Enviar solicitação</button>
+            </form>
           )}
         </div>
       </div>
