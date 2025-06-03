@@ -7,5 +7,6 @@ namespace Api.Domain.Filter
     public class AppointmentFilter
     {
         public Guid? DoctorId {get;set;}
+        public AppointmentStatusEnum? Status {get;set;}
     }
 }

@@ -101,5 +101,33 @@ namespace Api.Data.Implementations
 
             return doctor;
         }
+
+        public async Task<DoctorResultDto> GetByUserId(Guid userId)
+        {
+            DoctorResultDto doctor = await _dataset
+                 .Where(d => d.UserId == userId)
+                 .Select(d => new DoctorResultDto
+                 {
+                     Address = d.Address,
+                     CRM = d.CRM,
+                     Id = d.Id,
+                     Name = d.User.Nome,
+                     Appointments = d.Appointments,
+                     ServiceType = d.ServiceType,
+                     Specialty = d.Specialty
+                 }).FirstOrDefaultAsync();
+
+            doctor.Schedule = doctor.Appointments?
+                .GroupBy(a => a.DateTime.Date)
+                .Select(a => new ScheduleDto
+                {
+                    Label = a.Key.ToString("yyyy-MM-dd"),
+                    Values = a.Select(a => a.DateTime.ToString("HH:mm")).ToList()
+                }).ToList() ?? new List<ScheduleDto>();
+
+            doctor.Appointments = null;
+
+            return doctor;
+        }
     }
 }

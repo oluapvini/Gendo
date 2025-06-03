@@ -21,6 +21,7 @@ using Api.Domain.Models.User;
 using AutoMapper;
 using Api.Domain.Dto.User;
 using Api.Domain.Dto;
+using Api.Domain.Dto.Doctor;
 
 namespace Api.Service.Services
 {
@@ -28,6 +29,7 @@ namespace Api.Service.Services
     {
 
         private IUserRepository _repository;
+        private readonly IDoctorRepository _doctorRepository;
         private readonly IMailSenderService _mailSenderService;
         private readonly IUserService _userService;
         private SigningConfigurations _signingConfigurations;
@@ -36,9 +38,19 @@ namespace Api.Service.Services
         private readonly IMapper _mapper;
 
 
-        public LoginService(IUserRepository repository, IMailSenderService mailSenderService,IUserService userService, SigningConfigurations signingConfigurations, TokenConfigurations tokenConfigurations, IConfiguration configuration,IMapper mapper)
+        public LoginService(
+            IUserRepository repository,
+            IDoctorRepository doctorRepository,
+            IMailSenderService mailSenderService,
+            IUserService userService,
+            SigningConfigurations signingConfigurations,
+            TokenConfigurations tokenConfigurations,
+            IConfiguration configuration,
+            IMapper mapper
+        )
         {
             _repository = repository;
+            _doctorRepository = doctorRepository;
             _mailSenderService = mailSenderService;
             _userService = userService;
             _signingConfigurations = signingConfigurations;
@@ -92,7 +104,9 @@ namespace Api.Service.Services
                     var handler = new JwtSecurityTokenHandler();
                     string token = CreateToken(identity, createDate, expirationDate, handler);
 
-                    return SuccessObject(createDate, expirationDate, token, user);
+                    DoctorResultDto doctor = await _doctorRepository.GetByUserId(baseUser.Id);
+
+                    return SuccessObject(createDate, expirationDate, token, user, doctor.Id);
                 }
 
             }
@@ -112,7 +126,7 @@ namespace Api.Service.Services
             return BCrypt.Net.BCrypt.Verify(passwordRequest, hashedPassword);
         }
 
-        private object SuccessObject(DateTime createDate, DateTime expirationDate, string token, LoginDto user)
+        private object SuccessObject(DateTime createDate, DateTime expirationDate, string token, LoginDto user, Guid doctorId)
         {
             return new
             {
@@ -121,6 +135,7 @@ namespace Api.Service.Services
                 expiration = expirationDate.ToString("yyyy-MM-dd HH:mm:ss"),
                 acessToken = token,
                 userName = user.Usuario,
+                doctorId,
                 message = "Usuário Logado com sucesso"
             };
         }

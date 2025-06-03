@@ -56,11 +56,18 @@ namespace Api.Data.Implementations
         public async Task<List<AppointmentResultDto>> GetAllByFilter(AppointmentFilter filter)
         {
             var result = await _dataset
-                .Where(a => filter.DoctorId == null || a.DoctorId == filter.DoctorId)
+                .Where(a =>
+                    filter.DoctorId == null || a.DoctorId == filter.DoctorId &&
+                    filter.Status == null || a.Status == filter.Status
+                )
                 .Select(a => new AppointmentResultDto
                 {
                     DateTime = a.DateTime,
-                    Status = a.Status
+                    Status = a.Status,
+                    Id = a.Id,
+                    PatientEmail = a.PatientEmail,
+                    PatientName = a.PatientName,
+                    PatientPhone = a.PatientPhone
                 })
                 .ToListAsync();
 

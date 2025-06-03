@@ -62,7 +62,7 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
       <div className="card-info">
         <div className="card-info-id">
           <div className="perfil-img">
-            <img src={doctorImage} alt={`Foto do doutor`} width={40} />
+            <img src={doctorImage} alt={`Foto do doutor`} width={35} />
           </div>
           <div>
             <h3>{doctor.name}</h3>

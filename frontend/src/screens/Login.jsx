@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +9,26 @@ export function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin =  async (e) => {
     e.preventDefault();
     console.log("Email:", email, "Senha:", senha);
-    navigate("/"); 
+
+    const response = await axios.post("http://localhost:5002/api/Auth/Login", {
+      usuario: email,
+      password: senha
+    });
+
+    if(response && response.data) {
+      if(response.data.authenticated) {
+        localStorage.setItem("gendo@acessToken", response.data.acessToken)
+        localStorage.setItem("gendo@doctorId", response.data.doctorId)
+        navigate("/docArea"); 
+      } else {
+        alert("Email ou senha inseridos incorretamente")
+      }
+    } else {
+      alert("Não foi possível completar o login")
+    }
   };
 
   return (
@@ -21,10 +38,10 @@ export function Login() {
         <div className="login-card">
           <p className="gendo-title">GENDO</p>
           <section className="login-section">
-            <h2 className="login-subtitle">LOGIN</h2>
+            <h2 className="login-subtitle">Login</h2>
             <form onSubmit={handleLogin} className="login-form">
               <div className="form-group">
-                <label>Email</label>
+                <h2>Email</h2>
                 <input
                   type="email"
                   className="text-input"
@@ -34,7 +51,7 @@ export function Login() {
                 />
               </div>
               <div className="form-group">
-                <label>Senha</label>
+                <h2>Senha</h2>
                 <input
                   type="password"
                   className="text-input"

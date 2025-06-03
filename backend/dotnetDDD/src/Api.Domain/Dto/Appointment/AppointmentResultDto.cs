@@ -13,5 +13,8 @@ namespace Api.Domain.Dto.Appointment
         public Guid Id {get;set;}
         public DateTime DateTime {get;set;}
         public AppointmentStatusEnum Status {get;set;}
+        public string PatientName { get; set; }
+        public string PatientEmail { get; set; }
+        public string PatientPhone { get; set; }
     }
 }

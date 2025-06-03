@@ -4,8 +4,9 @@ namespace Api.Domain.Entities.Enums
     public enum AppointmentStatusEnum
     {
         Pending = 1, //Pendente
-        Scheduled = 2, //Agendada
-        Completed = 3, //Realizada
-        Canceled = 4 // Cancelada
+        Confirming = 2, //A Confirmar
+        Scheduled = 3, //Agendada
+        Completed = 4, //Realizada
+        Canceled = 5 // Cancelada
     }
 }

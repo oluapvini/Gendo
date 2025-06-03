@@ -17,5 +17,6 @@ namespace Api.Domain.Interfaces.Repository
         Task<List<string>> GetDoctorCitiesByState(string state);
         Task<IEnumerable<DoctorResultDto>> GetAllByFilter(DoctorFilter filter);
         Task<DoctorResultDto> Get(Guid id);
+        Task<DoctorResultDto> GetByUserId(Guid userId);
     }
 }
