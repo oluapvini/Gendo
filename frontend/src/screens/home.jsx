@@ -1,7 +1,12 @@
+
+import { useNavigate } from "react-router-dom";
+
 import React, { useState, useEffect, useRef } from "react";
 import { DoctorCard } from "../components/doctorCard/DoctorCard";
 import axios from "axios";
 import "./home.css"
+
+import loginIcon from "../assets/login.png"
 
 export function Home() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("all");
@@ -33,7 +38,13 @@ export function Home() {
 
   // Paginação
   const [currentPage, setCurrentPage] = useState(1);
-  const doctorsPerPage = 5; // quantos médicos por página
+  const doctorsPerPage = 3; 
+
+  const navigate = useNavigate();
+
+  const handleProfessionalLogin = () => {
+    navigate("/login"); 
+  };
 
   const states = Array.from(new Set(doctors.map((doc) => doc.address.state)));
   const filteredCities =
@@ -185,13 +196,11 @@ export function Home() {
     }
   }, [showConsultationSection, selectedSchedule]);
 
-
   const handleScheduleSelect = ({ doctor, date, time }) => {
     setSelectedSchedule({ doctor, date, time });
     setShowConsultationSection(true);
   };
 
-  // calcula índices para slice dos médicos da página atual
   const indexOfLastDoctor = currentPage * doctorsPerPage;
   const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
   const currentDoctors = filteredDoctors.slice(
@@ -215,11 +224,14 @@ export function Home() {
       <div className="home">
         <header className="home-header">
           <div>
-            <p>&lt;</p>
             <p className="gendo-title">GENDO</p>
           </div>
-          <img src="#" alt="icone agenda" />
-          <h3>Minha agenda</h3>
+          <div>
+            <button className="slim-btn" onClick={handleProfessionalLogin}>
+              Login Profissional
+              <img src={loginIcon} className="icon"alt="icon login" />
+            </button>
+          </div>
         </header>
 
         <div className="slogan-section">
@@ -292,39 +304,48 @@ export function Home() {
             </div>
 
             {currentDoctors.length > 0 ? (
-              currentDoctors.map((doctor) => (
-                <DoctorCard
-                  key={doctor.id}
-                  doctor={doctor}
-                  onScheduleSelect={handleScheduleSelect}
-                />
-              ))
-            ) : (
-              <div style={{ textAlign: "center", padding: "2rem" }}>
-                <p>Nenhum médico encontrado com os filtros selecionados.</p>
-              </div>
-            )}
+              <>
+                {currentDoctors.map((doctor) => (
+                  <DoctorCard
+                    key={doctor.id}
+                    doctor={doctor}
+                    onScheduleSelect={handleScheduleSelect}
+                  />
+                ))}
 
-            {/* Paginação */}
-            {filteredDoctors.length > doctorsPerPage && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "1rem",
-                  marginTop: "1rem",
-                  alignItems:"center"
-                }}
-              >
-                <button className="blue-btn" onClick={goToPrevPage} disabled={currentPage === 1}>
-                  Anterior
-                </button>
-                <span>
-                  Página {currentPage} de {totalPages}
-                </span>
-                <button className="blue-btn"onClick={goToNextPage} disabled={currentPage === totalPages}>
-                  Próximo
-                </button>
+                {filteredDoctors.length > doctorsPerPage && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "1rem",
+                      marginTop: "1rem",
+                      alignItems: "center",
+                    }}
+                  >
+                    <button
+                      className="blue-btn"
+                      onClick={goToPrevPage}
+                      disabled={currentPage === 1}
+                    >
+                      Anterior
+                    </button>
+                    <span>
+                      Página {currentPage} de {totalPages}
+                    </span>
+                    <button
+                      className="blue-btn"
+                      onClick={goToNextPage}
+                      disabled={currentPage === totalPages}
+                    >
+                      Próximo
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div>
+                <p>Nenhum médico encontrado com os filtros selecionados.</p>
               </div>
             )}
           </section>
@@ -332,11 +353,24 @@ export function Home() {
           {showConsultationSection && selectedSchedule && (
             <form className="consultation-form" onSubmit={handleSubmit}>
               <h2>Informações da Consulta</h2>
-
-              <p><strong>Médico:</strong> {selectedSchedule.doctor.name}</p>
-              <p><strong>Especialidade:</strong> {selectedSchedule.doctor.specialty}</p>
-              <p><strong>Data:</strong> {selectedSchedule.date}</p>
-              <p><strong>Horário:</strong> {selectedSchedule.time}</p>
+              <div className="doctor-info">
+                <div>
+                  <h4>Médico:</h4>
+                  <p>{selectedSchedule.doctor.name}</p>
+                </div>
+                <div>
+                  <h4>Especialidade:</h4>
+                  <p>{selectedSchedule.doctor.specialty}</p>
+                </div>
+                <div>
+                  <h4>Data:</h4>
+                  <p>{selectedSchedule.date}</p>
+                </div>
+                <div>
+                  <h4>Horário:</h4>
+                  <p>{selectedSchedule.time}</p>
+                </div>
+              </div>
 
               <h3>Dados para contato</h3>
               <label>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./doctorCard.css";
 import doctorImage from "../../assets/doctor.svg";
 
@@ -22,27 +22,36 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
   const [selected, setSelected] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
 
-  useEffect(() => {
-    console.log("doctor", doctor)
-  }, [])
+  // Determina a primeira data disponível (>= hoje)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const scheduleDates = Object.keys(doctor.schedule)
+    .map((str) => {
+      const [day, month] = str.split("/").map(Number);
+      const date = new Date(today.getFullYear(), month - 1, day);
+      date.setHours(0, 0, 0, 0);
+      return date;
+    })
+    .filter((d) => d >= today)
+    .sort((a, b) => a - b);
 
-  // Gera 30 dias a partir de hoje
-  const allDates = generateNextDates(new Date(), 30);
+  const firstDate = scheduleDates.length > 0 ? scheduleDates[0] : today;
 
-  // Mostra 7 dias por vez na tela (pode mudar)
+  // Gera 30 dias a partir da primeira data disponível
+  const allDates = generateNextDates(firstDate, 30);
+
+  // Exibe 7 dias por vez
   const visibleCount = 7;
   const visibleDays = allDates.slice(startIndex, startIndex + visibleCount);
 
-  // Horários únicos disponíveis no schedule do médico, ordenados
+  // Horários únicos ordenados
   const allTimes = Array.from(
     new Set(Object.values(doctor.schedule).flat())
   ).sort();
 
   const handleClick = (date, time) => {
     setSelected({ date, time });
-    if (onScheduleSelect) {
-      onScheduleSelect({ doctor, date, time });
-    }
+    onScheduleSelect?.({ doctor, date, time });
   };
 
   const canGoBack = startIndex > 0;
@@ -62,12 +71,11 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
         </div>
         <div className="card-info-details">
           <h3>Endereço</h3>
-          <div>
+          
             <p>{doctor.address.street}</p>
-            <p>
-              {doctor.address.city}, {doctor.address.state}
-            </p>
-          </div>
+            <p>{doctor.address.city}, {doctor.address.state}</p>
+            
+         
         </div>
       </div>
 
@@ -83,7 +91,6 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
             >
               {"<"}
             </button>
-
             <table className="schedule-table">
               <thead>
                 <tr>
@@ -128,8 +135,33 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
                   </tr>
                 ))}
               </tbody>
+              <tbody>
+                {allTimes.map((time, i) => (
+                  <tr key={i}>
+                    {visibleDays.map((day, j) => {
+                      const dateStr = formatDate(day);
+                      const isAvailable = doctor.schedule[dateStr]?.includes(time);
+                      const isSelected =
+                        selected?.date === dateStr && selected?.time === time;
+                      return (
+                        <td key={j}>
+                          {isAvailable ? (
+                            <div
+                              className={`time-slot ${isSelected ? "selected" : ""}`}
+                              onClick={() => handleClick(dateStr, time)}
+                            >
+                              {time}
+                            </div>
+                          ) : (
+                            <div>-</div>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
             </table>
-
             <button
               className="nav-button inline right"
               onClick={() => setStartIndex(startIndex + visibleCount)}
