@@ -84,10 +84,12 @@ namespace Api.Service.Services
             var result = await _repository.InsertAsync(entity);
 
             if(user.Type == UserTypeEnum.Doctor) {
-                DoctorEntity newDoctor = new DoctorEntity {
+                DoctorEntity newDoctor = new DoctorEntity
+                {
                     CRM = user.Doctor.CRM,
                     Specialty = user.Doctor.Specialty,
                     UserId = result.Id,
+                    Address = _mapper.Map<AddressEntity>(user.Doctor.Address)
                 };
 
                 await _doctorRepository.InsertAsync(newDoctor);

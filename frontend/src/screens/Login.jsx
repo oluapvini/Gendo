@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LINK } from "../utils/link";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -11,9 +12,8 @@ export function Login() {
 
   const handleLogin =  async (e) => {
     e.preventDefault();
-    console.log("Email:", email, "Senha:", senha);
-
-    const response = await axios.post("http://localhost:5002/api/Auth/Login", {
+    
+    const response = await axios.post(LINK + "/api/Auth/Login", {
       usuario: email,
       password: senha
     });

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loginIcon from "../assets/login.png";
 import axios from "axios";
+import { LINK } from "../utils/link";
 
 export function DocArea() {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ export function DocArea() {
     const doctorId = localStorage.getItem("gendo@doctorId");
     const token = localStorage.getItem("gendo@acessToken");
 
-    const response = await axios.post("http://localhost:5002/api/Appointment/GetAllByFilter", {
+    const response = await axios.post(LINK + "/api/Appointment/GetAllByFilter", {
       doctorId,
       status: 3
     },
@@ -84,7 +85,7 @@ export function DocArea() {
     const doctorId = localStorage.getItem("gendo@doctorId");
     const token = localStorage.getItem("gendo@acessToken");
 
-    const response = await axios.post("http://localhost:5002/api/Appointment/GetAllByFilter", {
+    const response = await axios.post(LINK + "/api/Appointment/GetAllByFilter", {
       doctorId,
       status: 2
     },
@@ -108,7 +109,7 @@ export function DocArea() {
     const token = localStorage.getItem("gendo@acessToken");
     
     await axios.put(
-      "http://localhost:5002/api/Appointment", 
+      LINK + "api/Appointment", 
       {
         ...req,
         doctorId, // ou outro identificador

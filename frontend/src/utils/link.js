@@ -1,0 +1,1 @@
+export const LINK = "https://variance-actors-readings-thereof.trycloudflare.com";

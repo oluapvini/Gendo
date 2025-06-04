@@ -7,6 +7,7 @@ import axios from "axios";
 import "./home.css"
 
 import loginIcon from "../assets/login.png"
+import { LINK } from "../utils/link";
 
 export function Home() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("all");
@@ -60,7 +61,7 @@ export function Home() {
 
   const fetchSpecialties = async () => {
     try {
-      const response = await axios.get("http://localhost:5002/api/Doctor/Specialties");
+      const response = await axios.get(LINK + "/api/Doctor/Specialties");
       const data = response.data;
 
       const formattedData = data.map(specialty => ({
@@ -79,7 +80,7 @@ export function Home() {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get("http://localhost:5002/api/Doctor");
+      const response = await axios.get(LINK+ "/api/Doctor");
       const data = response.data;
 
       const transformed = data.map((medico) => ({
@@ -126,7 +127,7 @@ export function Home() {
     const formattedDateTime = year + "-" + month + "-" + day + "T" + selectedSchedule.time;
 
     try {
-      await axios.put("http://localhost:5002/api/Appointment", {
+      await axios.put(LINK + "/api/Appointment", {
         doctorId: selectedSchedule.doctor.id, // ou outro identificador
         dateTime: formattedDateTime,
         status: 2,

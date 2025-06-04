@@ -32,6 +32,9 @@ namespace Api.CrossCutting.Mappings
 
             CreateMap<AppointmentPutDto,AppointmentEntity>()
                 .ReverseMap();
+
+            CreateMap<AddressDto, AddressEntity>()
+                .ReverseMap();
         }
     }
 }
