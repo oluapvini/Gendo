@@ -22,7 +22,6 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
   const [selected, setSelected] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
 
-  // Determina a primeira data disponível (>= hoje)
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const scheduleDates = Object.keys(doctor.schedule)
@@ -37,19 +36,32 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
 
   const firstDate = scheduleDates.length > 0 ? scheduleDates[0] : today;
 
-  // Gera 30 dias a partir da primeira data disponível
   const allDates = generateNextDates(firstDate, 30);
 
-  // Exibe 7 dias por vez
   const visibleCount = 7;
   const visibleDays = allDates.slice(startIndex, startIndex + visibleCount);
 
-  // Horários únicos ordenados
+  // Horários únicos no geral, ordenados
   const allTimes = Array.from(
     new Set(Object.values(doctor.schedule).flat())
   ).sort();
 
+  // Para garantir no mínimo 4 linhas, escolho o maior valor entre 4 e allTimes.length
+  const rowsCount = Math.max(4, allTimes.length);
+
+  // Função para montar os horários por dia, garantindo 4 slots:
+  const getTimesForDay = (dateStr) => {
+    const times = doctor.schedule[dateStr] || [];
+    // Adiciona "-" para completar até 4
+    const filled = [...times];
+    while (filled.length < 4) {
+      filled.push("-");
+    }
+    return filled;
+  };
+
   const handleClick = (date, time) => {
+    if (time === "-") return; // não permite seleção de "-"
     setSelected({ date, time });
     onScheduleSelect?.({ doctor, date, time });
   };
@@ -71,11 +83,10 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
         </div>
         <div className="card-info-details">
           <h3>Endereço</h3>
-          
-            <p>{doctor.address.street}</p>
-            <p>{doctor.address.city}, {doctor.address.state}</p>
-            
-         
+          <p>{doctor.address.street}</p>
+          <p>
+            {doctor.address.city}, {doctor.address.state}
+          </p>
         </div>
       </div>
 
@@ -105,19 +116,19 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
                 </tr>
               </thead>
               <tbody>
-                {allTimes.map((time, i) => (
-                  <tr key={i}>
-                    {visibleDays.map((day, j) => {
-                      console.log("doctor.schedule", doctor.schedule)
+                {[...Array(rowsCount)].map((_, rowIdx) => (
+                  <tr key={rowIdx}>
+                    {visibleDays.map((day, colIdx) => {
                       const dateStr = formatDate(day);
-                      // verifica se o horário está disponível na agenda do médico para a data
-                      const isAvailable =
-                        doctor.schedule[dateStr]?.includes(time) || false;
+                      const timesForDay = getTimesForDay(dateStr);
+                      const time = timesForDay[rowIdx] || "-";
+
                       const isSelected =
                         selected?.date === dateStr && selected?.time === time;
+
                       return (
-                        <td key={j}>
-                          {isAvailable ? (
+                        <td key={colIdx}>
+                          {time !== "-" ? (
                             <div
                               className={`time-slot ${
                                 isSelected ? "selected" : ""
@@ -127,33 +138,7 @@ export function DoctorCard({ doctor, onScheduleSelect }) {
                               {time}
                             </div>
                           ) : (
-                            <div>-</div>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-              <tbody>
-                {allTimes.map((time, i) => (
-                  <tr key={i}>
-                    {visibleDays.map((day, j) => {
-                      const dateStr = formatDate(day);
-                      const isAvailable = doctor.schedule[dateStr]?.includes(time);
-                      const isSelected =
-                        selected?.date === dateStr && selected?.time === time;
-                      return (
-                        <td key={j}>
-                          {isAvailable ? (
-                            <div
-                              className={`time-slot ${isSelected ? "selected" : ""}`}
-                              onClick={() => handleClick(dateStr, time)}
-                            >
-                              {time}
-                            </div>
-                          ) : (
-                            <div>-</div>
+                            <div className=" disabled">-</div>
                           )}
                         </td>
                       );

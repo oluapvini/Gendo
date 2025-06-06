@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -191,6 +190,7 @@ export function Home() {
     setCurrentPage(1);
   }, [selectedSpecialty, selectedCity, selectedState, doctors]);
 
+  // Scroll automático para a seção do formulário quando ela abrir
   useEffect(() => {
     if (showConsultationSection && consultationRef.current) {
       consultationRef.current.scrollIntoView({ behavior: "smooth" });
@@ -200,6 +200,13 @@ export function Home() {
   const handleScheduleSelect = ({ doctor, date, time }) => {
     setSelectedSchedule({ doctor, date, time });
     setShowConsultationSection(true);
+
+    // Scroll imediato após atualizar estados (opcional)
+    setTimeout(() => {
+      if (consultationRef.current) {
+        consultationRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   const indexOfLastDoctor = currentPage * doctorsPerPage;
@@ -352,7 +359,11 @@ export function Home() {
           </section>
 
           {showConsultationSection && selectedSchedule && (
-            <form className="consultation-form" onSubmit={handleSubmit}>
+            <form
+              className="consultation-form"
+              onSubmit={handleSubmit}
+              ref={consultationRef} // <-- ref adicionada aqui
+            >
               <h2>Informações da Consulta</h2>
               <div className="doctor-info">
                 <div>

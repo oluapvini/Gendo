@@ -46,12 +46,12 @@
 .consultation-form input:focus,
 .consultation-form textarea:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: #124EE6;;
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
 .consultation-form button {
-  background-color: #3498db;
+  background-color: #124EE6;;
   color: white;
   padding: 0.9rem 1.5rem;
   font-size: 1rem;
@@ -62,5 +62,5 @@
 }
 
 .consultation-form button:hover {
-  background-color: #2980b9;
+  background-color: #124EE6;;
 }

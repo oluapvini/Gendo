@@ -371,6 +371,7 @@ body {
   justify-content: space-between;
   width: 100%;
   max-width: 200rem;
+  min-height: 25rem;
   display: flex;
   gap:2rem;
   box-shadow: 6px 7px 12.3px rgba(208, 207, 226, 0.904);
