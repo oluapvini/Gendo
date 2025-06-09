@@ -419,3 +419,60 @@ body {
   gap:2rem;
   padding: 2rem 5rem;
 }
+
+
+.card-schedule {
+  flex: 1;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 300px; 
+  overflow: visible;
+  position: relative;
+}
+
+.delete-func:hover{
+  background-color: #e73d3d3a;
+  color: red;
+}
+
+.input-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.input-group input[type="date"],
+.input-group input[type="time"] {
+  padding: 8px 12px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+  background-color: #fefefe;
+}
+
+.input-group input[type="date"]:focus,
+.input-group input[type="time"]:focus {
+  border-color: #4a90e2;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 6px rgba(74, 144, 226, 0.4);
+}
+
+.input-group button.dark-btn {
+  padding: 9px 18px;
+  background-color: #124EE6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input-group button.dark-btn:hover {
+  background-color: #3d65e7;
+}
+
