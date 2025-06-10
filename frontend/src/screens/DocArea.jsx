@@ -70,8 +70,6 @@ export function DocArea() {
         }
       );
   
-      console.log("response.data", response.data)
-
       if (response?.data) setScheduledAppointments(response.data);
     } catch (error) {
       console.error("Erro ao buscar consultas agendadas:", error);
@@ -173,7 +171,7 @@ export function DocArea() {
 
     try {
       await axios.put(
-        LINK + "api/Appointment",
+        LINK + "/api/Appointment",
         {
           ...req,
           doctorId,
