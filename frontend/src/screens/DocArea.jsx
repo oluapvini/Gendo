@@ -29,33 +29,32 @@ export function DocArea() {
   const rowsCount = 6; // Máximo de horários por dia
   const [selected, setSelected] = useState(null);
 
-  // Dados locais mockados para horários disponíveis
-  const mockSlots = [
-    {
-      id: 1,
-      dateTime: new Date("2025-06-10T09:00:00").toISOString(),
-    },
-    {
-      id: 2,
-      dateTime: new Date("2025-06-10T10:30:00").toISOString(),
-    },
-    {
-      id: 3,
-      dateTime: new Date("2025-06-11T14:00:00").toISOString(),
-    },
-  ];
+  // // Dados locais mockados para horários disponíveis
+  // const mockSlots = [
+  //   {
+  //     id: 1,
+  //     dateTime: new Date("2025-06-10T09:00:00").toISOString(),
+  //   },
+  //   {
+  //     id: 2,
+  //     dateTime: new Date("2025-06-10T10:30:00").toISOString(),
+  //   },
+  //   {
+  //     id: 3,
+  //     dateTime: new Date("2025-06-11T14:00:00").toISOString(),
+  //   },
+  // ];
 
   useEffect(() => {
     fetchPendingRequests();
     fetchScheduledAppointments();
-
-    // Use dados locais para horários disponíveis
-    setAvailableSlots(mockSlots);
+    fetchAvaibleSlots();
   }, []);
 
   const fetchScheduledAppointments = async () => {
     const doctorId = localStorage.getItem("gendo@doctorId");
-    const token = localStorage.getItem("gendo@acessToken");
+    const token = localStorage.getItem("gendo@acessToken");7
+
 
     try {
       const response = await axios.post(
@@ -70,7 +69,34 @@ export function DocArea() {
           },
         }
       );
+  
+      console.log("response.data", response.data)
+
       if (response?.data) setScheduledAppointments(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar consultas agendadas:", error);
+    }
+  };
+
+  const fetchAvaibleSlots = async () => {
+    const doctorId = localStorage.getItem("gendo@doctorId");
+    const token = localStorage.getItem("gendo@acessToken");7
+
+    try {
+      const response = await axios.post(
+        LINK + "/api/Appointment/GetAllByFilter",
+        {
+          doctorId,
+          status: 1,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response?.data) setAvailableSlots(response.data);
     } catch (error) {
       console.error("Erro ao buscar consultas agendadas:", error);
     }
@@ -104,19 +130,35 @@ export function DocArea() {
     setAvailableSlots(updatedSlots);
   };
 
-  const handleAddAvailableSlot = () => {
+  const handleAddAvailableSlot = async () => {
     if (!availableDate || !availableTime) {
       alert("Por favor, selecione data e hora.");
       return;
     }
 
-    const dateTime = new Date(`${availableDate}T${availableTime}`);
-    const newSlot = {
-      id: Date.now(),
-      dateTime: dateTime.toISOString(),
-    };
+    const dateTime = `${availableDate}T${availableTime}`;
+    const doctorId = localStorage.getItem("gendo@doctorId");
+    const token = localStorage.getItem("gendo@acessToken");
 
-    setAvailableSlots([...availableSlots, newSlot]);
+    const response = await axios.post(
+      LINK + "/api/Appointment", 
+      {
+        doctorId,
+        dateTime,
+        status: 1
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if(!response || !response.data) {
+      alert("Houve um erro ao enviar o horário de agendamento")
+    }
+
+    fetchAvaibleSlots();
     setAvailableDate("");
     setAvailableTime("");
   };
