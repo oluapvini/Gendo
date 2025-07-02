@@ -1,0 +1,13 @@
+Passos do .NET
+
+    1. Baixar o .NET 3.1.0
+    2. Entrar na pasta Api.Application
+    3. Dar o comando: dotnet run build
+
+________________________________________________________________________________________________________
+
+Passos para o executar o front-end
+
+    1. Baixar o node para execução do npm
+    2. Executar no terminal: npm install
+    3. Abrir o terminal na pasta "frontend" e executar: npm run dev
